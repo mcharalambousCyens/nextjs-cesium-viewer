@@ -15,26 +15,12 @@ interface ResponsiveCarouselProps {
     selectedPhase?: string | null;
 }
 
-interface AnnotationData {
-    text: string;
-    points: string;
-    imageUrl: string;
-    id: string;
-    grahMatId: string;
-}
-
-interface Annotation {
-    type: string;
-    data: AnnotationData[];
-}
-
-
 const imgsUrlPrefix = './';
 const thumbnailsUrlPrefix = './';
 // example: https://ehem.virvig.eu/thumbs/GM000013.jpg
 
 const GraphicMaterialsXmlUrl = './Graphic_Materials.xml';
-const AnnotationsXmlUrl = './Annotations.xml';
+// const AnnotationsXmlUrl = './Annotations.xml';
 const ArchitecturalPhasesXmlUrl = './Architectural_Phases.xml';
 const ArchitecturalSpacesXmlUrl = './Architectural_Spaces.xml';
 const Link_GraphicMaterialsArchitecturalPhasesXmlUrl = './Graphic_Materials_link_Architectural_Phases.xml';
@@ -42,32 +28,32 @@ const Link_GraphicMaterialsArchitecturalSpacesXmlUrl = './Graphic_Materials_link
 
 
 // Create an Annotorious annotation from the annotation data
-function createAnnotoriousAnnotation(annotationData: AnnotationData, currentImage: string | null): any | null {
-    if (annotationData.points.length === 0) {
-        return null;
-    }
+// function createAnnotoriousAnnotation(annotationData: AnnotationData, currentImage: string | null): any | null {
+//     if (annotationData.points.length === 0) {
+//         return null;
+//     }
 
-    // Transform the points array into a string of space-separated coordinates
-    const points = annotationData.points.trim().replace(/,/g, ' ');
+//     // Transform the points array into a string of space-separated coordinates
+//     const points = annotationData.points.trim().replace(/,/g, ' ');
 
-    return {
-        "@context": "http://www.w3.org/ns/anno.jsonld",
-        "id": annotationData.id,
-        "type": "Annotation",
-        "body": {
-            "type": "TextualBody",
-            "value": annotationData.text,
-            "purpose": "commenting"
-        },
-        "target": {
-            "source": currentImage,
-            "selector": {
-                "type": "SvgSelector",
-                "value": `<svg><polygon points="${points}" /></svg>`
-            }
-        }
-    };
-}
+//     return {
+//         "@context": "http://www.w3.org/ns/anno.jsonld",
+//         "id": annotationData.id,
+//         "type": "Annotation",
+//         "body": {
+//             "type": "TextualBody",
+//             "value": annotationData.text,
+//             "purpose": "commenting"
+//         },
+//         "target": {
+//             "source": currentImage,
+//             "selector": {
+//                 "type": "SvgSelector",
+//                 "value": `<svg><polygon points="${points}" /></svg>`
+//             }
+//         }
+//     };
+// }
 
 
 const ResponsiveCarousel: React.FC<ResponsiveCarouselProps> = ({ selectedPhase }) => {
@@ -81,7 +67,7 @@ const ResponsiveCarousel: React.FC<ResponsiveCarouselProps> = ({ selectedPhase }
     const [dates, setDates] = useState<string[]>([]);
     const [titles, setTitles] = useState<string[]>([]);
     const [graphMatIds, setGraphMatIds] = useState<any[]>([]);
-    const [annotations, setAnnotations] = useState<Annotation[]>([]);
+    // const [annotations, setAnnotations] = useState<Annotation[]>([]);
     let   [currentImage, setCurrentImage] = useState<string | null>(null);
     const [isCurrentImageSet, setIsCurrentImageSet] = useState(false);
     // Boolean states to check if the XMLs are parsed
@@ -202,47 +188,47 @@ const ResponsiveCarousel: React.FC<ResponsiveCarouselProps> = ({ selectedPhase }
     });
     
     // Parse and store Annotations
-    const handleAnnotationsParsedData = (data: any) => {
-        const Annotations_Ids = []; // Ids (row.children[0])
-        const Annotations_Text = []; // Text (row.children[1])
-        const Annotations_Points = []; // Points (row.children[2])
-        const Annotations_GraphMat_ID = []; // GraphMat_ID (row.children[4])
-        const newAnnos: Annotation[] = []; // temp Annotations array to push
+    // const handleAnnotationsParsedData = (data: any) => {
+    //     const Annotations_Ids = []; // Ids (row.children[0])
+    //     const Annotations_Text = []; // Text (row.children[1])
+    //     const Annotations_Points = []; // Points (row.children[2])
+    //     const Annotations_GraphMat_ID = []; // GraphMat_ID (row.children[4])
+    //     // const newAnnos: Annotation[] = []; // temp Annotations array to push
 
-        // Get the ROWS from the XML data
-        for (let i = 3; i < data.children.length; i++) {
-            const ROW = data.children[i];
-            if (!ROW || !ROW.children) {
-                console.error('Invalid or missing ROW in XML data.');
-                return;
-            }
-            const row_data = ROW.children;
+    //     // Get the ROWS from the XML data
+    //     for (let i = 3; i < data.children.length; i++) {
+    //         const ROW = data.children[i];
+    //         if (!ROW || !ROW.children) {
+    //             console.error('Invalid or missing ROW in XML data.');
+    //             return;
+    //         }
+    //         const row_data = ROW.children;
 
-            // Safely get the required information from each row
-            Annotations_Ids.push(row_data[0] && row_data[0].children && row_data[0].children[0] ? row_data[0].children[0] : 'Unknown ID');
-            Annotations_Text.push(row_data[1] && row_data[1].children && row_data[1].children[0] ? row_data[1].children[0] : 'No Text');
-            Annotations_Points.push(row_data[2] && row_data[2].children && row_data[2].children[0] ? row_data[2].children[0] : 'No Points');
-            Annotations_GraphMat_ID.push(row_data[4] && row_data[4].children && row_data[4].children[0] ? row_data[4].children[0] : 'No GraphMat_ID');
+    //         // Safely get the required information from each row
+    //         Annotations_Ids.push(row_data[0] && row_data[0].children && row_data[0].children[0] ? row_data[0].children[0] : 'Unknown ID');
+    //         Annotations_Text.push(row_data[1] && row_data[1].children && row_data[1].children[0] ? row_data[1].children[0] : 'No Text');
+    //         Annotations_Points.push(row_data[2] && row_data[2].children && row_data[2].children[0] ? row_data[2].children[0] : 'No Points');
+    //         Annotations_GraphMat_ID.push(row_data[4] && row_data[4].children && row_data[4].children[0] ? row_data[4].children[0] : 'No GraphMat_ID');
 
-            // Finding the corresponding image URL
-            const imageUrl = getImageUrlByGraphicMaterialId(row_data[4].children[0]);
+    //         // Finding the corresponding image URL
+    //         const imageUrl = getImageUrlByGraphicMaterialId(row_data[4].children[0]);
 
-            if (imageUrl && row_data[2].children[0].length > 0) {
-                console.log(row_data[2].children[0]);
-                // Creating the AnnotationData object
-                const annotationData: AnnotationData = {
-                    text: row_data[1].children[0],
-                    points: row_data[2].children[0],
-                    imageUrl: imageUrl,
-                    id: row_data[0].children[0],
-                    grahMatId: row_data[4].children[0],
-                };
-                newAnnos.push({ type: 'Annotation', data: [annotationData] });
-            }
-        }
-        setAnnotations(newAnnos);
-        setIsAnnotationsXmlParsed(true);
-    };
+    //         if (imageUrl && row_data[2].children[0].length > 0) {
+    //             console.log(row_data[2].children[0]);
+    //             // Creating the AnnotationData object
+    //         //     const annotationData: AnnotationData = {
+    //         //         text: row_data[1].children[0],
+    //         //         points: row_data[2].children[0],
+    //         //         imageUrl: imageUrl,
+    //         //         id: row_data[0].children[0],
+    //         //         grahMatId: row_data[4].children[0],
+    //         //     };
+    //         //     newAnnos.push({ type: 'Annotation', data: [annotationData] });
+    //         // }
+    //     }
+    //     setAnnotations(newAnnos);
+    //     setIsAnnotationsXmlParsed(true);
+    // };
 
     // Parse and store Architectural Phases
     const handleArchitecturalPhasesParsedData = (data: any) => {
@@ -334,20 +320,20 @@ const ResponsiveCarousel: React.FC<ResponsiveCarouselProps> = ({ selectedPhase }
         // Make annotations read-only, cannot create new or edit existing annotations
         anno.readOnly = true; 
     
-        // Filter annotations for the current image
-        const relevantAnnotations = annotations.flatMap(annotation => 
-            annotation.data.filter(annotationData => 
-                annotationData.imageUrl === currentImage
-            )
-        );
+        // // Filter annotations for the current image
+        // const relevantAnnotations = annotations.flatMap(annotation => 
+        //     annotation.data.filter(annotationData => 
+        //         annotationData.imageUrl === currentImage
+        //     )
+        // );
 
-        // Add filtered annotations to Annotorious
-        relevantAnnotations.forEach(annotationData => {
-            const annoAnnotation = createAnnotoriousAnnotation(annotationData, currentImage);
-            if (annoAnnotation) {
-                anno.addAnnotation(annoAnnotation);
-            }
-        });
+        // // Add filtered annotations to Annotorious
+        // relevantAnnotations.forEach(annotationData => {
+        //     const annoAnnotation = createAnnotoriousAnnotation(annotationData, currentImage);
+        //     if (annoAnnotation) {
+        //         anno.addAnnotation(annoAnnotation);
+        //     }
+        // });
     
         return () => {
             viewer.destroy(); // Clean up viewer
@@ -355,7 +341,7 @@ const ResponsiveCarousel: React.FC<ResponsiveCarouselProps> = ({ selectedPhase }
         };
     }, [isGraphicMaterialsXmlParsed, isAnnotationsXmlParsed,
         isArchitecturalPhasesXmlParsed ,isArchitecturalSpacesXmlParsed, currentImage,
-        annotations, viewerRef.current]);
+         viewerRef.current]);
     
 
     // Handle thumbnail click
@@ -396,7 +382,7 @@ const ResponsiveCarousel: React.FC<ResponsiveCarouselProps> = ({ selectedPhase }
         <div>
             {/* Parse the .xmls only once, so it doesn't try to parse it infinitely */}
             {!isGraphicMaterialsXmlParsed && <XMLParser url={GraphicMaterialsXmlUrl} onParsed={handleGraphicMaterialsParsedData } />}
-            {isGraphicMaterialsXmlParsed && !isAnnotationsXmlParsed && <XMLParser url={AnnotationsXmlUrl} onParsed={handleAnnotationsParsedData } />}
+            {/* {isGraphicMaterialsXmlParsed && !isAnnotationsXmlParsed && <XMLParser url={AnnotationsXmlUrl} onParsed={handleAnnotationsParsedData } />} */}
             {!isArchitecturalPhasesXmlParsed && <XMLParser url={ArchitecturalPhasesXmlUrl} onParsed={handleArchitecturalPhasesParsedData } />}
             {!isArchitecturalSpacesXmlParsed && <XMLParser url={ArchitecturalSpacesXmlUrl} onParsed={handleArchitecturalSpacesParsedData } />}
             
