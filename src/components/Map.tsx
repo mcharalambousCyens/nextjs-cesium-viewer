@@ -19,7 +19,7 @@ Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwMjA4M
 // const NAV_MODE_DEFAULT = "0";
 // const NAV_MODE_FLY = "1";
 // const NAV_MODE_FLY_EXPERT = "2";
-export default () => {
+const Map = () => {
 
   // Handle the modal carousel state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -979,3 +979,5 @@ export default () => {
     </div>
   );
 };
+
+export default Map;
