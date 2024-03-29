@@ -59,7 +59,7 @@ const Link_GraphicMaterialsArchitecturalSpacesXmlUrl = './Graphic_Materials_link
 const ResponsiveCarousel: React.FC<ResponsiveCarouselProps> = ({ selectedPhase }) => {
     // Get the app version from the URL
     const searchParams = useSearchParams();
-    const appVersion = searchParams.get('version');
+    const appVersion = searchParams.get('version'); 
     // States to store the parsed data
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [thumbnailUrls, setThumbnailUrls] = useState<string[]>([]);
