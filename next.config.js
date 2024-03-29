@@ -2,10 +2,12 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require('path');
 
+   
 module.exports = {
   
   reactStrictMode: false,
   webpack: (config, { isServer, webpack }) => {
+    output:"export";
     // Exclude Cesium workers from TerserPlugin
     if (!isServer) {
       config.plugins.push(
