@@ -2,9 +2,9 @@
 
 import { Ion, createWorldTerrainAsync, Viewer,Quaternion, Cesium3DTileset, Matrix3, ScreenSpaceEventHandler, ScreenSpaceEventType, JulianDate, ConstantProperty, Cartesian3, Cartesian2, Color, VerticalOrigin, LabelStyle, PerspectiveFrustum, HeadingPitchRange, Math, defined, Cesium3DTileStyle, Entity, SceneMode, Transforms, KeyboardEventModifier, Ray, Ellipsoid, IntersectionTests, EntityCollection, CircleGeometry, PerInstanceColorAppearance, GeometryInstance, ColorGeometryInstanceAttribute, Primitive, CallbackProperty, ConstantPositionProperty } from "cesium";
 import { useEffect, useState } from "react";
-// import ResponsiveCarousel from "./ResponsiveCarousel";
-// import CarouselModal from './CarouselModal';
-// import Modal from './Modal';
+import ResponsiveCarousel from "./ResponsiveCarousel";
+import CarouselModal from './CarouselModal';
+import Modal from './Modal';
 import { Phases } from './Phases';
 import {FirstPersonCameraController} from './FirstPersonNavigation';
 
@@ -972,10 +972,10 @@ const Map = () => {
       {/* Return the Cesium Viewer */}
       <div id="cesiumContainer" />
 
-      {/* Return the Image Carousel Modal
+      {/* Return the Image Carousel Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
         openModal={() => setIsModalOpen(true)} selectedPhase={selectedPhase}>
-      </Modal> */}
+      </Modal>
     </div>
   );
 };
