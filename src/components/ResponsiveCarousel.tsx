@@ -27,8 +27,8 @@ interface ResponsiveCarouselProps {
     selectedPhase?: string | null;
 }
 
-const imgsUrlPrefix = './';
-const thumbnailsUrlPrefix = './';
+const imgsUrlPrefix = './images_engklistra/';
+const thumbnailsUrlPrefix = './images_engklistra/';
 // example: https://ehem.virvig.eu/thumbs/GM000013.jpg
 
 const GraphicMaterialsXmlUrl = './Graphic_Materials.xml';
