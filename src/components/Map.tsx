@@ -763,7 +763,7 @@ const Map = () => {
 
         };
 
-        //---Marios-----
+       // // ---Marios-----
         const addAnnotations = async (Phase: any) => {
           fetch(jsonFilePath)
             .then(response => response.json())
